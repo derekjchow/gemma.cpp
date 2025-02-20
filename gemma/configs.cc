@@ -236,6 +236,16 @@ static ModelConfig ConfigPaliGemma_224() {
   return config;
 }
 
+static ModelConfig ConfigPaliGemma_224_ViT() {
+  ModelConfig config;
+  config.model_name = "PaliGemma_224_ViT";
+  config.model = Model::PALIGEMMA_224_VIT;
+  config.model_dim = 2048;
+  AddVitConfig(config);
+  config.vit_only = true;
+  return config;
+}
+
 ModelConfig VitConfig(const ModelConfig& config) {
   ModelConfig vit_config = ConfigNoSSM();
   vit_config.model_dim = config.vit_model_dim;
@@ -280,6 +290,8 @@ ModelConfig ConfigFromModel(Model model) {
       return ConfigGemmaTiny();
     case Model::PALIGEMMA_224:
       return ConfigPaliGemma_224();
+    case Model::PALIGEMMA_224_VIT:
+      return ConfigPaliGemma_224_ViT();
     case Model::PALIGEMMA2_3B_224:
       return ConfigPaliGemma2_3B_224();
     case Model::PALIGEMMA2_10B_224:

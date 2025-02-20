@@ -165,7 +165,6 @@ class MatPtr {
 
   // Adds the blob to the writer.
   void AddToWriter(BlobWriter& writer) const {
-    fprintf(stderr, "Adding %s to writer\n", name_.c_str());
     writer.Add(MakeKey(name_.c_str()), ptr_, SizeBytes());
   }
 

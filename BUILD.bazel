@@ -472,6 +472,44 @@ cc_binary(
 )
 
 cc_binary(
+    name = "image_tokenizer",
+    srcs = ["gemma/image_tokenizer.cc"],
+    deps = [
+        ":app",
+        ":args",
+        ":benchmark_helper",
+        ":common",
+        ":gemma_lib",
+        ":threading",
+        # Placeholder for internal dep, do not remove.,
+        "//compression:sfp",
+        "//paligemma:image",
+        "@highway//:hwy",
+        "@highway//:profiler",
+        "@highway//:thread_pool",
+    ],
+)
+
+cc_binary(
+    name = "vit_extractor",
+    srcs = ["gemma/vit_extractor.cc"],
+    deps = [
+        ":app",
+        ":args",
+        ":benchmark_helper",
+        ":common",
+        ":gemma_lib",
+        ":threading",
+        # Placeholder for internal dep, do not remove.,
+        "//compression:sfp",
+        "//paligemma:image",
+        "@highway//:hwy",
+        "@highway//:profiler",
+        "@highway//:thread_pool",
+    ],
+)
+
+cc_binary(
     name = "single_benchmark",
     srcs = ["evals/benchmark.cc"],
     deps = [

@@ -226,6 +226,8 @@ struct InferenceArgs : public ArgsBase<InferenceArgs> {
   bool deterministic;
   bool multiturn;
   Path image_file;
+  Path image_tokens_out;
+  Path image_tokens_file;
 
   // Returns error string or nullptr if OK.
   const char* Validate() const {
@@ -257,6 +259,10 @@ struct InferenceArgs : public ArgsBase<InferenceArgs> {
             "  Default : 0 (conversation "
             "resets every turn)");
     visitor(image_file, "image_file", Path(), "Image file to load.");
+    visitor(image_tokens_out, "image_tokens_out", Path(),
+            "Path name to store image tokens.\n");
+    visitor(image_tokens_file, "image_tokens_file", Path(),
+            "Image tokens file to load.");
   }
 
   void CopyTo(RuntimeConfig& runtime_config) const {
