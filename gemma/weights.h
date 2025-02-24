@@ -490,8 +490,10 @@ struct ModelWeightsPtrs {
     int layer_idx = -1;
     char sep = ' ';
     int sep_index = -1;
-    GEMMA_CALL_FUNC(embedder_input_embedding);
-    GEMMA_CALL_FUNC(final_norm_scale);
+    if (!ptrs[0]->weights_config.vit_only) {
+      GEMMA_CALL_FUNC(embedder_input_embedding);
+      GEMMA_CALL_FUNC(final_norm_scale);
+    }
     if (ptrs[0]->weights_config.vit_layer_configs.size() > 0) {
       // Vit parts.
       GEMMA_CALL_FUNC(vit_encoder_norm_bias);

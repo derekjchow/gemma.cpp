@@ -114,6 +114,7 @@ enum class Model {
   GEMMA_TINY,
   GEMMA2_2B,
   PALIGEMMA_224,
+  PALIGEMMA_224_VIT,
   PALIGEMMA2_3B_224,
   PALIGEMMA2_10B_224,
 };
@@ -122,7 +123,8 @@ enum class Model {
 static constexpr Model kAllModels[] = {
     Model::GEMMA_2B, Model::GEMMA_7B, Model::GEMMA2_9B, Model::GEMMA2_27B,
     Model::GRIFFIN_2B, Model::GEMMA_TINY, Model::GEMMA2_2B,
-    Model::PALIGEMMA_224, Model::PALIGEMMA2_3B_224, Model::PALIGEMMA2_10B_224,
+    Model::PALIGEMMA_224, Model::PALIGEMMA_224_VIT,
+    Model::PALIGEMMA2_3B_224, Model::PALIGEMMA2_10B_224,
 };
 
 struct LayerConfig {
@@ -219,6 +221,7 @@ struct ModelConfig {
   // Dimensions related to image processing.
   size_t patch_width = 14;
   size_t image_size = 224;
+  bool vit_only = false;
 };
 
 // Returns the config for the given model.

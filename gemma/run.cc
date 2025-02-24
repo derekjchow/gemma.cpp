@@ -90,6 +90,10 @@ void ReplGemma(Gemma& model, KVCache& kv_cache, const AppArgs& app,
   InitGenerator(args, gen);
 
   const bool have_image = !args.image_file.path.empty();
+  const bool have_image_tokens = !args.image_tokens_file.path.empty();
+  if (have_image && have_image_tokens) {
+    HWY_ABORT("Both --image and --image_tokens were supplied!");
+  }
   Image image;
   ImageTokens image_tokens;
   if (have_image) {
@@ -108,6 +112,15 @@ void ReplGemma(Gemma& model, KVCache& kv_cache, const AppArgs& app,
               "\n\n[ Timing info ] Image token generation took: %d ms\n",
               static_cast<int>(image_tokens_duration * 1000));
     }
+  }
+
+  if (have_image_tokens) {
+    fprintf(stderr, "have image tokens\n");
+    image_tokens = ImageTokens(Extents2D(model.GetModelConfig().vit_seq_len,
+                                         model.GetModelConfig().model_dim));
+    HWY_ASSERT(args.image_tokens_file.Exists());
+    auto image_tokens_file_data = ReadFileToString(args.image_tokens_file);
+    memcpy(image_tokens.All(), image_tokens_file_data.data(), image_tokens.NumBytes());
   }
 
   // callback function invoked for each generated token.
@@ -179,7 +192,7 @@ void ReplGemma(Gemma& model, KVCache& kv_cache, const AppArgs& app,
                                     .use_spinning = app.spin};
     args.CopyTo(runtime_config);
     size_t prefix_end = 0;
-    if (have_image) {
+    if (have_image || have_image_tokens) {
       runtime_config.image_tokens = &image_tokens;
       prompt.insert(prompt.begin(), image_tokens.BatchSize(), 0);
       prompt_size = prompt.size();
