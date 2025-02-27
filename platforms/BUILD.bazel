@@ -1,0 +1,15 @@
+platform(
+    name = "kelvin",
+    constraint_values = [
+        "@platforms//cpu:riscv32",
+        "@platforms//os:none",
+    ],
+)
+
+config_setting(
+    name = "kelvin_config",
+    constraint_values = [
+        "@platforms//cpu:riscv32",
+        "@platforms//os:none",
+    ],
+)

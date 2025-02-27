@@ -53,3 +53,24 @@ cc_library(
         "https://github.com/s-yata/darts-clone/archive/e40ce4627526985a7767444b6ed6893ab6ff8983.zip",
     ],
 )
+
+http_archive(
+    name = "toolchain_kelvin",
+    urls = [
+        "https://storage.googleapis.com/shodan-public-artifacts/toolchain_kelvin.tar.gz",
+    ],
+    sha256 = "691336688b6ab8db1e9c2e4aea0af98f2b4f3e8057797a563effab0a7db92ca4",
+    build_file_content = """
+licenses(["notice"])
+exports_files(glob(["**"]))
+package(default_visibility = ["//visibility:public"])
+filegroup(
+    name = "all",
+    srcs = glob(["**"]),
+)
+""",
+)
+
+register_toolchains(
+    "//toolchain:cc_toolchain_for_kelvin",
+)
